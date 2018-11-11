@@ -1,0 +1,82 @@
+@charset "UTF-8";
+	.panel-default>.panel-heading{
+		background-color: #94d6da;
+	}
+	.panel-default>.panel-heading .badge{
+		background-color: #94d6da;
+	}
+	.close .btn {
+		 margin-top: -7px;
+		 background-color: #008792;
+		 color: #fff;
+	}
+	.panel-heading{
+		font-size: 18px;
+	}
+	/**用户编辑的css*/
+	.btn-add{
+		float: right;
+		cursor: pointer;
+	}
+	.btn-add .add-img {
+		width: 23px;
+		height: 23px;
+	}
+	/*保存/取消按钮*/
+	.modal-footer{
+		text-align: center;
+	}
+	.col-sm-2{
+		text-align: right;
+	}
+	.LoginNameError .LoginNameSuccess{
+		border: 2px solid;
+	}
+	.LoginNameError{
+		border-color: red;
+	}
+	.LoginNameSuccess{
+		border-color: green;
+	}
+	 .badge-icon{
+		display: none;
+	} 
+	 .badge-icon1{
+		display: none;
+	} 
+	/**文字居中*/
+	.col-sm-2 {
+		text-align: center;
+	}
+	.col-sm-4{
+		text-align: center;
+	}
+	
+	.btn-group{
+		padding-top: 32px;
+	}
+	.list-group-item{
+		text-align: center;
+		cursor: pointer;
+	}
+	.roles
+	{
+		border: 1.5px solid #eee;
+		height: 165px;
+		overflow-y: scroll;
+	}
+	.panel-body{
+		overflow-x: hidden;
+    	overflow-y: hidden;
+	}
+	.roles li {
+		list-style: none;
+	}
+	.roles ul{
+		padding: 12px;
+		padding-top: 2px;
+	}
+	.selected-input{
+		text-align: left;
+		padding-left: 5px;
+	}

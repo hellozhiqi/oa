@@ -1,0 +1,50 @@
+@charset "UTF-8";
+.panel-default>.panel-heading{
+		background-color: #94d6da;
+	}
+.panel-default>.panel-heading .badge{
+	background-color: #94d6da;
+}
+.btn-add{
+	float: right;
+	cursor: pointer;
+}
+.btn-add .add-img {
+	width: 23px;
+	height: 23px;
+}
+.btn{
+		text-align: right;
+		float: right;
+	}
+	#roleKeyTig{
+		font-weight: bold;
+		float: right;
+	}
+	.liCss{
+		background-color: #D1EEEE;
+	}
+	.list-group-item{
+		text-align: center;
+		cursor: pointer;
+	}
+	.list-group-item> .roleNameSpan{
+		 float: left;
+		 padding-left: 23%;
+	}
+	.list-group-item> #role{
+		float:left;
+		padding-left: 26%;
+	}
+	.close_x{
+		float: right;
+		font-weight: bold;
+		font-size: 15px;
+	}
+	.remove_btn{
+		float: right;
+	}
+	.x_icon{
+		width: 25px;
+		height: 25px;
+	}

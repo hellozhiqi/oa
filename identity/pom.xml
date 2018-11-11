@@ -1,0 +1,99 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.fkjava</groupId>
+    <artifactId>oa</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>identity</artifactId>
+  <name>common-identity</name>
+  <description>权限模块</description>
+  <dependencies>
+	  <dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>config</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		 <dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>resourse</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>vo</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+  <!-- 加入Spring MVC，并且配置好 -->
+  	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	<!-- 加入Spring和JPA的集成，并且配置好了Spring Data JPA -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-jpa</artifactId>
+	</dependency>
+	<!-- 数据库驱动 -->
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<scope>runtime</scope>
+	</dependency>
+	<!-- 激活完整的Tomcat,支持jsp-->
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>jstl</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>javax.servlet-api</artifactId>
+		<!-- Tomcat自带的，不要打包 -->
+		<scope>provided</scope>
+	</dependency>
+	<!-- 增加JSP支持 -->
+	<dependency>
+		<groupId>org.apache.tomcat.embed</groupId>
+		<artifactId>tomcat-embed-jasper</artifactId>
+		<!-- 如果在Tomcat里面运行，那么是由Tomcat提供的 -->
+		<!-- 如果在mvn命令直接运行，该依赖也会加入类路径 -->
+		<scope>provided</scope>
+	</dependency>
+	<!-- 开发的时候使用的，用于自动部署、自动重启，修改的文件可以马上生效 -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-devtools</artifactId>
+		<scope>runtime</scope>
+		<!-- 可选的 -->
+		<optional>true</optional>
+	</dependency>
+	<!-- 加入前端需要的webjars，就是一堆的css、js、字体、图片 -->
+	<dependency>
+		<groupId>org.webjars.bower</groupId>
+		<artifactId>bootstrap</artifactId>
+		<version>3.3.7</version>
+	</dependency>
+	<!-- Spring Security 的核心包,加密、解密 -->
+	<dependency>
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-core</artifactId>
+	</dependency>
+	<!--  使用SCrypt算法加密  -->
+	<dependency>
+		<groupId>org.bouncycastle</groupId>
+		<artifactId>bcprov-jdk15on</artifactId>
+		<version>1.60</version>
+	</dependency>
+  </dependencies>
+  <build>
+		<plugins>
+			<!-- 把yaml这些文件，放入jar的/BOOT-INF/classes目录里面，导致其他模块找不到 -->
+			<!-- 删除此插件以后，不需要每个模块都有main方法 -->
+			<!-- 应该在有main方法的项目中去增加，不要在父项目增加。在父项目增加相当于每个子模块都有此插件！ -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
