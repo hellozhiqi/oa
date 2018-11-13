@@ -48,7 +48,7 @@ public class UserController {
 	@PostMapping("/checked")
 	@ResponseBody // 会转换成json或则xml
 	public Result checkLoginName(@RequestParam("loginName") String loginName, Model model) {
-
+	
 		Result result = identityService.checkLoginName(loginName);
 		return result;
 	}

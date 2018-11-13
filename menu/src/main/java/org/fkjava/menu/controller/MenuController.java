@@ -59,4 +59,11 @@ public class MenuController {
 		
 		return this.menuService.delect(id);
 	}
+	
+	@GetMapping(value="menu",produces="application/json")
+	@ResponseBody
+	public List<Menu> findMenus(){
+		
+		return menuService.findTopMenu();
+	}
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -169,5 +170,14 @@ public class IdentityServiceImpl implements IdentityService {
 		if (user != null) {
 			user.setStatus(User.Status.DISABLE);
 		}
+	}
+
+	@Override
+	public Optional<User> findByLoginName(String username) {
+		
+		 User user=userRepository.findByLoginName(username);
+		 Optional<User> ofNullable = Optional.ofNullable(user);
+		 
+		return ofNullable;
 	}
 }

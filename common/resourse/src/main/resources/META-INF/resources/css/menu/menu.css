@@ -8,7 +8,9 @@ ul.ztree{
 	border: 1px silver solid;
 	text-align: center;
 }
-
+.container{
+		width: 98%;
+}
 /*添加自定义zTree图标*/
 .ztree li span.button.add {
     margin-left: 2px;

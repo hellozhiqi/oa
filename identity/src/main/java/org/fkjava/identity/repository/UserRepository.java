@@ -1,5 +1,7 @@
 package org.fkjava.identity.repository;
 
+import java.util.Optional;
+
 import org.fkjava.identity.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -22,7 +22,7 @@ var setting = {
 			// 激活异步请求
 			enable: true,
 			// 异步请求的URL，默认POST方式发送请求
-			url: loadURL,
+			url: "/menu",
 			// 使用GET方式发送请求
 			type: "GET",
 			// 要求返回JSON，数据类型参考jQuery的dataType
@@ -113,7 +113,7 @@ function BeforeDrop(treeId, treeNodes, targetNode, moveType){
 	//"inner"：成为子节点，"prev"：成为同级前一个节点，"next"：成为同级后一个节点
 	param.moveType=moveType;
 	$.ajax({
-		url:moveURL,
+		url:"/menu/move",
 		method:"post",
 		data:param,
 		success:function(msg){

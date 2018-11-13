@@ -1,4 +1,15 @@
 $(function() {
+	
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	// 在所有的AJAX请求发送之前，统一设置请求头
+	// 这种方式设置的，只能处理通过jQuery发送的AJAX请求
+	if (token && header) {
+		$(document).ajaxSend(function(e, xhr, options) {
+			xhr.setRequestHeader(header, token);
+		});
+	}
+	
         //点击新增
         $(".btn-add").unbind("click").click(function() {
                 $.ajax({
@@ -105,12 +116,11 @@ var clear = function clear() {
 }
 //点击修改
 var edit = function edit(id) {
-
+		
         $.ajax({
                 type: "get",
                 url: "/identity/show/edit/" + id,
                 success: function(data) {
-
                         $('#w').window('open');
                         $("input[name='id']").val(data.id);
                         $("#inputName").val(data.name);
@@ -167,13 +177,14 @@ var loginNameIcon = function loginNameIcon(obj) {
         }
 }
 //登录名校验
-var checkLoginName = function checkLoginName(obj) {
+function checkLoginName(obj) {
         if (obj != "") {
                 $.ajax({
                         type: "post",
                         url: "/identity/show/checked",
                         data: $(".form-horizontal").serialize(),
                         success: function(msg) {
+                        	
                                 /**边框样式*/
                                 $('#inputLoginName').toggleClass("LoginNameSuccess", msg.status == 1);
                                 $('#inputLoginName').toggleClass("LoginNameError", msg.status == 2);

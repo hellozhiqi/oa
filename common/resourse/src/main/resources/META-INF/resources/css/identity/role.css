@@ -5,6 +5,9 @@
 .panel-default>.panel-heading .badge{
 	background-color: #94d6da;
 }
+.container{
+		width: 98%;
+}
 .btn-add{
 	float: right;
 	cursor: pointer;

@@ -7,15 +7,12 @@
 <head>
 <meta charset="UTF-8">
 <title>菜单管理</title>
-<link rel="stylesheet" href="${ctx }/webjars/bootstrap/3.3.7/dist/css/bootstrap.min.css">
 	<!-- - 所有放到static、public、resources里面的文件，都是在根目录的 -->
 	<link rel="stylesheet" href="${ ctx}/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 	<link rel="stylesheet" href="/css/menu/menu.css">
-	
-	<script type="text/javascript" src="${ctx }/webjars/jquery/3.3.1/dist/jquery.min.js" ></script>
-	<script type="text/javascript" src="${ctx }/webjars/bootstrap/3.3.7/dist/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="${ctx}/zTree/js/jquery.ztree.all.min.js"></script>
 	<script type="text/javascript" src="${ctx}/js/menu/menu.js"></script>
+	<script type="text/javascript" src="${ctx}/static/js/zTree-menu.js"></script>
 </head>
 <body>
 <div class="container">
@@ -133,9 +130,4 @@
 	</div>
 </div>
 </body>
-<script type="text/javascript">
-	var moveURL = "${ctx}/menu/move";
-	var loadURL = "${ctx}/menu";
-</script>
-<script type="text/javascript" src="${ctx}/static/js/zTree-menu.js"></script>
 </html>
