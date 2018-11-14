@@ -1,3 +1,5 @@
+<%@page import="java.util.Enumeration"%>
+<%@page import="java.util.EnumMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -17,7 +19,7 @@
         	<div class="alert alert-success glyphicon glyphicon-ok-circle" role="alert">成功退出登录</div>
         </c:if>
         <c:if test="${param.error eq '' }">
-        	<div class="alert alert-danger" role="alert">
+        	<div class="alert alert-danger glyphicon glyphicon-remove-circle" role="alert">
 				<strong>登录失败</strong>
 				${sessionScope['SPRING_SECURITY_LAST_EXCEPTION'].message }
 			</div>
@@ -48,6 +50,18 @@
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
-    </div>  
+    </div>
+    <!-- 获取session所有属性 -->
+    <% 
+    	Enumeration<String> names=session.getAttributeNames();
+    	while(names.hasMoreElements()){
+    		
+    		String name=names.nextElement();
+    		Object value=session.getAttribute(name);
+    		out.println(name);
+    		out.println("===");
+    		out.println(value+"<br/>");
+    	}
+    %>  
   </body>
 </html>

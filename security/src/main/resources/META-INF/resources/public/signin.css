@@ -6,6 +6,9 @@ body {
 .alert-success{
 	width: 298px;
 }
+.alert-danger{
+	width: 298px;
+}
 .alert{
 	margin-bottom: 0px;	
 }
