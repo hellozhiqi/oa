@@ -53,7 +53,7 @@
       </form>
     </div>
     <!-- 获取session所有属性 -->
-    <% 
+<%--     <% 
     	Enumeration<String> names=session.getAttributeNames();
     	while(names.hasMoreElements()){
     		
@@ -63,6 +63,6 @@
     		out.println("===");
     		out.println(value+"<br/>");
     	}
-    %>  
+    %>   --%>
   </body>
 </html>
