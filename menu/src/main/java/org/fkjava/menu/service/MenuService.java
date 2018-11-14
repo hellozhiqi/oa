@@ -14,4 +14,6 @@ public interface MenuService {
 	Result move(String id, String targetId, String moveType);
 
 	Result delect(String id);
+
+	List<Menu> findMenus();
 }

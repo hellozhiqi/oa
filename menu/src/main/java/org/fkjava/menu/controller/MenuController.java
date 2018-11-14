@@ -65,10 +65,7 @@ public class MenuController {
 	@GetMapping(value="menu",produces="application/json")
 	@ResponseBody
 	public List<Menu> findMenus(){
-		User user = UserHoder.get();
-		System.out.println("用户:"+user);
-		System.out.println(user.getId());
 		
-		return menuService.findTopMenu();
+		return menuService.findMenus();
 	}
 }

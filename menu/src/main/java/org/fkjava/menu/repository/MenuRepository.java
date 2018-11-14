@@ -2,6 +2,7 @@ package org.fkjava.menu.repository;
 
 import java.util.List;
 
+import org.fkjava.identity.domain.Role;
 import org.fkjava.menu.domain.Menu;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,5 +29,7 @@ public interface MenuRepository extends JpaRepository<Menu, String> {
 	Page<Menu> findByParentAndNumberLessThanOrderByNumberDesc(Menu parent, Double number, Pageable pageable);
 
 	Page<Menu> findByParentAndNumberGreaterThanOrderByNumberAsc(Menu parent, Double number, Pageable pageable);
+
+	List<Menu> findByRolesIn(List<Role> roles);
 	
 }

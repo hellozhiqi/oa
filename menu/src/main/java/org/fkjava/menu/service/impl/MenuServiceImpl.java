@@ -1,14 +1,20 @@
 package org.fkjava.menu.service.impl;
 
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.transaction.Transactional;
 
 import org.fkjava.identity.domain.Role;
+import org.fkjava.identity.domain.User;
 import org.fkjava.identity.repository.RoleRepository;
+import org.fkjava.identity.repository.UserRepository;
+import org.fkjava.identity.util.UserHoder;
 import org.fkjava.menu.domain.Menu;
 import org.fkjava.menu.repository.MenuRepository;
 import org.fkjava.menu.service.MenuService;
@@ -27,6 +33,8 @@ public class MenuServiceImpl implements MenuService {
 	private MenuRepository menuRepository;
 	@Autowired
 	private RoleRepository roleRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public void save(Menu menu) {
@@ -110,11 +118,9 @@ public class MenuServiceImpl implements MenuService {
 		Menu target = this.menuRepository.findById(targetId).orElse(null);
 
 		if ("inner".equals(moveType)) {
-			
-			//List<Menu> childs= this.menuRepository.findChildsById(targetId);
-			
+
 			for (Menu child : target.getChilds()) {
-				if(child.getName().equals(menu.getName())) {
+				if (child.getName().equals(menu.getName())) {
 					return Result.of(Result.STATUS_ERROR);
 				}
 			}
@@ -184,5 +190,79 @@ public class MenuServiceImpl implements MenuService {
 			}
 		}
 		return Result.of(Result.STATUS_OK);
+	}
+
+	/**
+	 * 根据用户的角色查询菜单
+	 */
+	@Override
+	public List<Menu> findMenus() {
+
+		User user = UserHoder.get();
+		// 获取持久化的user对象
+		user = userRepository.getOne(user.getId());
+
+		// 1.根据roles集合,查询所有的所有菜单,得到用户用户有权限访问的菜单
+		List<Role> roles = user.getRoles();
+		List<Menu> menus = this.menuRepository.findByRolesIn(roles);
+		// 返回一级菜单
+		List<Menu> topMenu = new LinkedList<>();
+		Map<Menu, List<Menu>> map = new HashMap<>();
+
+		// 使用排序器,在内存里面对菜单进行排序,以序号为依据
+		Comparator<Menu> comparator = (menu1, menu2) -> {
+			if (menu1.getNumber() > menu2.getNumber()) {
+				return 1;
+			} else if (menu1.getNumber() < menu2.getNumber()) {
+				return -1;
+			} else {
+				return 0;
+			}
+		};
+		// 2.构架菜单与下级的关系
+		menus.stream()
+				// 过滤掉没有子节点的菜单
+				.filter(menu -> menu.getParent() != null).forEach(menu -> {
+					// 得到上级(父菜单)
+					Menu parent = menu.getParent();
+					if (!map.containsKey(parent)) {
+						map.put(parent, new LinkedList<>());
+					}
+					// 得到子菜单
+					List<Menu> childs = map.get(parent);
+					childs.add(menu);
+				});
+
+		// 3. 重新构建一级,二级菜单
+		map.entrySet().stream()
+				// 判断没有上一级,表示一级菜单
+				.filter(entry -> entry.getKey().getParent() == null).forEach(entry -> {
+					Menu parent = entry.getKey();// 一级菜单
+					List<Menu> childs = entry.getValue();// 二级菜单
+					// 查询到的menu,不要覆盖
+					// 返回菜单的时候,由于通过权限组装数据,所以需要修改数据
+					Menu menu = copy(parent);
+					childs.forEach(child -> {
+						Menu second = this.copy(child);	// 二级菜单
+						menu.getChilds().add(second);
+					});
+					menu.getChilds().sort(comparator);//排序二级菜单
+					topMenu.add(parent);
+				});
+
+		topMenu.sort(comparator);//排序一级菜单
+		
+		return topMenu;
+	}
+
+	private Menu copy(Menu persist) {
+
+		Menu menu = new Menu();
+		menu.setId(persist.getId());
+		menu.setName(persist.getName());
+		menu.setNumber(persist.getNumber());
+		menu.setUrl(persist.getUrl());
+		menu.setChilds(new LinkedList<>());
+		return menu;
 	}
 }
