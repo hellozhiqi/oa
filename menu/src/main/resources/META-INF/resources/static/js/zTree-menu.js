@@ -28,6 +28,9 @@ var setting = {
 			// 要求返回JSON，数据类型参考jQuery的dataType
 			dataType: "JSON"
 	},
+	treeNode:{
+		isParent:false
+	},
 	view: {
 		addHoverDom: addHoverDom,
 		removeHoverDom: removeHoverDom,

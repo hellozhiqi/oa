@@ -3,7 +3,9 @@ package org.fkjava.menu.controller;
 import java.util.List;
 
 import org.fkjava.identity.domain.Role;
+import org.fkjava.identity.domain.User;
 import org.fkjava.identity.service.RoleService;
+import org.fkjava.identity.util.UserHoder;
 import org.fkjava.menu.domain.Menu;
 import org.fkjava.menu.service.MenuService;
 import org.fkjava.vo.Result;
@@ -63,6 +65,9 @@ public class MenuController {
 	@GetMapping(value="menu",produces="application/json")
 	@ResponseBody
 	public List<Menu> findMenus(){
+		User user = UserHoder.get();
+		System.out.println("用户:"+user);
+		System.out.println(user.getId());
 		
 		return menuService.findTopMenu();
 	}

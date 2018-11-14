@@ -1,11 +1,13 @@
 package org.fkjava.security;
 
+import org.fkjava.security.interceptors.UserHoderInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -19,6 +21,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 		registry.addViewController("/security/index").setViewName("security/index");
 	}
 
+	//应用拦截器
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new UserHoderInterceptor()).addPathPatterns("/**");
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// 验证请求
@@ -26,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 				// 登录页面的地址和其他的静态页面都不要权限
 				// /*表示目录下的任何地址，但是不包括子目录
 				// /** 则连同子目录一起匹配
-				.antMatchers("/security/index","/css/**", "/js/**", "/webjars/**", "/static/**","/public/**")
+				.antMatchers("/security/index", "/css/**", "/js/**", "/webjars/**", "/static/**", "/public/**")
 				.permitAll()// 不做访问判断
 				.anyRequest()// 任何请求
 				.authenticated()// 授权才能访问

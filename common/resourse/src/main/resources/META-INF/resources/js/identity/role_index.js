@@ -41,6 +41,7 @@ $(function(){
 				xhr.setRequestHeader(header, token);
 			});
 		}
+		
 		//警告:以下的代码曾放到外面!!!!
 		$(".list-group-item").click(function(){
 			var data=$(this);
@@ -68,14 +69,14 @@ $(function(){
 			event.stopPropagation();
 			var div = $(this).parent();
 			var id = div.attr("data-id");
-			var url="${ctx}/identity/role/"+id;
+			var url="/identity/role/"+id;
 			
 			// 发送DELETE请求删除数据
 			$.ajax({
 				url:url,
 				method:'DELETE',
 				success:function(data,status,xhr){
-					document.location.href="${ctx}/identity/role";
+					document.location.href="/identity/role";
 				},
 				error:function(data,status,xhr){
 					// responseJSON表示返回的JSON对象

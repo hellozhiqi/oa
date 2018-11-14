@@ -50,6 +50,9 @@
 							    </div>
 						    </div>
 					  </div>
+					   <input type="hidden"
+						name="${_csrf.parameterName}"
+						value="${_csrf.token}"/>
 					   <div class="col-xm-12">
 						   <div class="form-group  url">
 							    <label for="url" class="col-sm-2">URL</label>
