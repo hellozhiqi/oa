@@ -31,6 +31,7 @@
 	         placeholder="Enter your account"
 	         name="loginName"
 	         required="required"
+	         value="${sessionScope.loginName }"
         	 autofocus>
         <label for="inputPassword" class="sr-only">密码</label>
         <input type="password" 

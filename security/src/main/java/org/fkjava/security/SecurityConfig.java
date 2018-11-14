@@ -1,5 +1,11 @@
 package org.fkjava.security;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.fkjava.security.interceptors.UserHoderInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,6 +13,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,13 +26,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		//登录成功页面
+		// 登录成功页面
 		registry.addViewController("/security/login").setViewName("security/login");
 		registry.addViewController("/index").setViewName("security/index");
 		registry.addRedirectViewController("/", "/index");
 	}
 
-	//应用拦截器
+	// 应用拦截器
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new UserHoderInterceptor()).addPathPatterns("/**");
@@ -32,6 +40,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+
+		String loginPage="/security/login";
+		//登录失败,将用户名回显
+		SimpleUrlAuthenticationFailureHandler failureHandler = new SimpleUrlAuthenticationFailureHandler(
+				loginPage+"?error") {
+				@Override
+				public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+						AuthenticationException exception) throws IOException, ServletException {
+					request.getSession().setAttribute("loginName", request.getParameter("loginName"));
+					//在重定向之前,将登录名存放在session中
+					super.onAuthenticationFailure(request, response, exception);
+				}
+		};
+
 		// 验证请求
 		http.authorizeRequests()
 				// 登录页面的地址和其他的静态页面都不要权限
@@ -49,8 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 				.loginProcessingUrl("/security/do-login")// 处理登录的url
 				.usernameParameter("loginName")// 登录 名的参数,与jsp的name关联
 				.passwordParameter("password")// 同上
-				.and().logout()
-				.logoutUrl("/security/do-logout")
+				.failureHandler(failureHandler)
+				.and().logout().logoutUrl("/security/do-logout")
 				// .and().httpBasic()// 也可以基于HTTP的标准验证方法（弹出对话框）
 				.and().csrf();// 激活防跨站攻击功能
 	}
