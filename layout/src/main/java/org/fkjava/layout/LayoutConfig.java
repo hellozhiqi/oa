@@ -37,7 +37,7 @@ public class LayoutConfig {
 		bean.setDispatcherTypes(DispatcherType.REQUEST,DispatcherType.ERROR);
 		Map<String, String> initParameters =new HashMap<>();
 		initParameters.put("decoratorMappings", "/*=/WEB-INF/views/layout/index.jsp\n"
-				+ "/security/index=/WEB-INF/views/layout/simple.jsp");
+				+ "/security/login=/WEB-INF/views/layout/simple.jsp");
 		//initParameters.put("exclude", "/menu,/identity/role/*");
 		//initParameters.put("exclude", "/security/index");
 		bean.setInitParameters(initParameters);

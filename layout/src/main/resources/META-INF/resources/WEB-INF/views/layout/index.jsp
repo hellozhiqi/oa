@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath }" scope="application"></c:set>
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
@@ -36,8 +38,14 @@
             <li><a href="#">个人</a></li>
             <li><a href="#">设置</a></li>
             <li><a href="#">帮助</a></li>
-            <li><a href="#">退出</a></li>
+            <li><a href="#" onclick="$('#logout-form').submit();">退出</a></li>
           </ul>
+          <!-- 退出必须使用post表单 -->
+          <form id="logout-form" action="${ctx}/security/do-logout" method="post"  style="display: none;">
+          		<input type="hidden"
+						name="${_csrf.parameterName}"
+						value="${_csrf.token}"/>
+          </form>
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search...">
           </form>

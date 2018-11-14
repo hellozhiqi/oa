@@ -18,7 +18,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/security/index").setViewName("security/index");
+		//登录成功页面
+		registry.addViewController("/security/login").setViewName("security/login");
+		registry.addViewController("/index").setViewName("security/index");
+		registry.addRedirectViewController("/", "/index");
 	}
 
 	//应用拦截器
@@ -34,18 +37,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 				// 登录页面的地址和其他的静态页面都不要权限
 				// /*表示目录下的任何地址，但是不包括子目录
 				// /** 则连同子目录一起匹配
-				.antMatchers("/security/index", "/css/**", "/js/**", "/webjars/**", "/static/**", "/public/**")
+				.antMatchers("/security/login", "/css/**", "/js/**", "/webjars/**", "/static/**", "/public/**")
 				.permitAll()// 不做访问判断
 				.anyRequest()// 任何请求
 				.authenticated()// 授权才能访问
 				.and()// 且
 				.formLogin()// 使用表单进行登录
-				.loginPage("/security/index")// 登录页面的位置，默认是/login
+				.loginPage("/security/login")// 登录页面的位置，默认是/login
 				// 此页面不需要有对应的JSP，而且也不需要有对应代码，只要URL
 				// 这个URL是Spring Security使用的，用来接收请求参数、调用Spring Security的鉴权模块
 				.loginProcessingUrl("/security/do-login")// 处理登录的url
 				.usernameParameter("loginName")// 登录 名的参数,与jsp的name关联
 				.passwordParameter("password")// 同上
+				.and().logout()
+				.logoutUrl("/security/do-logout")
 				// .and().httpBasic()// 也可以基于HTTP的标准验证方法（弹出对话框）
 				.and().csrf();// 激活防跨站攻击功能
 	}
