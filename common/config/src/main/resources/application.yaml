@@ -24,10 +24,10 @@ spring:
       #openInView: true
       
       # spring.servlet.multipart  文件上传
-   #servlet.multipart: 
-      #enabled: true
-      #max-file-size: 2048MB
-      #max-request-size: 500Mb
+   servlet.multipart: 
+      enabled: true
+      max-file-size: 2048MB
+      max-request-size: 500MB
    messages:
       basename: org.springframework.security.messages
       
