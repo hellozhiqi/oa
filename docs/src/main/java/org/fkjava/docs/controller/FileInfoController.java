@@ -67,15 +67,6 @@ public class FileInfoController {
 		return view;
 	}
 
-	@GetMapping("upload")
-	public ModelAndView uploadPage() {
-
-		ModelAndView view = new ModelAndView();
-		view.setViewName("upload/upload");
-
-		return view;
-	}
-
 	@GetMapping("/download/{abc}")
 	public ResponseEntity<StreamingResponseBody> download2(@PathVariable("abc") String id,
 			@RequestHeader("User-Agent") String userAgent) {

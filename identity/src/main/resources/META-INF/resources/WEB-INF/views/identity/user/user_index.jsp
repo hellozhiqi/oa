@@ -22,6 +22,7 @@
 			  	<div  class="btn-add">
 			 			添加<span>
 			 				<img class="add-img" alt="" src="${ctx}/images/add.png">
+			 				
 			 			</span>
 				</div>
 		  </div>

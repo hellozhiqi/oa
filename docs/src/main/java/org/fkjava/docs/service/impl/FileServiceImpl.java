@@ -16,6 +16,7 @@ import org.fkjava.docs.domain.FileInfo;
 import org.fkjava.docs.repository.FileDao;
 import org.fkjava.docs.service.FileService;
 import org.fkjava.identity.domain.User;
+import org.fkjava.identity.util.UserHoder;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -94,6 +95,7 @@ public class FileServiceImpl implements FileService, InitializingBean {
 	@Override
 	public Page<FileInfo> show(int number, String keyword) {
 
+		User user=UserHoder.get();
 		if (StringUtils.isEmpty(keyword)) {
 			keyword = null;
 		}
@@ -101,10 +103,11 @@ public class FileServiceImpl implements FileService, InitializingBean {
 		Pageable pageable = PageRequest.of(number, 10);
 		Page<FileInfo> page = null;
 		if (keyword == null) {
-			page = fileDao.findAll(pageable);
+			//根据用户名
+			page = fileDao.findByUser(user,pageable);
 		}else {
 			//根据文件名，前后模糊
-			page=fileDao.findByNameContaining(keyword,pageable);
+			page=fileDao.findByUserAndNameContaining(user,keyword,pageable);
 		}
 		return page;
 	}
