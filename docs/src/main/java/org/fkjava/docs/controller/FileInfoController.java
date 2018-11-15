@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.util.List;
 
 import org.fkjava.docs.domain.FileInfo;
 import org.fkjava.docs.service.FileService;
@@ -13,24 +12,20 @@ import org.fkjava.identity.domain.User;
 import org.fkjava.identity.service.IdentityService;
 import org.fkjava.identity.util.UserHoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
-import org.springframework.web.servlet.view.InternalResourceView;
 
 @Controller
 @RequestMapping("/docs")
@@ -40,7 +35,7 @@ public class FileInfoController {
 	private FileService fileService;
 	@Autowired
 	private IdentityService identityService;
-	
+
 	@PostMapping("upload")
 	public String upload(@RequestParam("file") MultipartFile file) {
 
@@ -49,8 +44,8 @@ public class FileInfoController {
 		long fileSize = file.getSize();
 
 		User user = UserHoder.get();
-		user=identityService.findUserById(user.getId());
-		
+		user = identityService.findUserById(user.getId());
+
 		try (InputStream in = file.getInputStream();) {
 			fileService.save(user, fileName, contentType, fileSize, in);
 		} catch (IOException e) {
@@ -60,22 +55,24 @@ public class FileInfoController {
 	}
 
 	@GetMapping("show")
-	public ModelAndView show() {
+	public ModelAndView show(@RequestParam(name = "pageNumber", defaultValue = "0") int number
+			,@RequestParam(name="keyword",required=false) String keyword) {
 
 		ModelAndView view = new ModelAndView();
 		view.setViewName("download/show");
-		List<FileInfo> infos = fileService.findAll();
-		view.addObject("infos", infos);
 		
+		Page<FileInfo> page = fileService.show(number,keyword);
+		view.addObject("page", page);
+
 		return view;
 	}
-	
+
 	@GetMapping("upload")
 	public ModelAndView uploadPage() {
 
 		ModelAndView view = new ModelAndView();
 		view.setViewName("upload/upload");
-		
+
 		return view;
 	}
 

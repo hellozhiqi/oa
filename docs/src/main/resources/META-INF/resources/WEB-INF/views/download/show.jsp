@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>
+   <%@ taglib prefix="fk" tagdir="/WEB-INF/tags"%>
 <c:set  value="${pageContext.request.contextPath}" var="ctx"/>
 <html>
 <head>
@@ -24,7 +25,7 @@
 				</tr>
 			</thead>	
 			<tbody>
-				<c:forEach items="${infos}" var="fi">
+				<c:forEach items="${page.content}" var="fi">
 					<tr>
 						<td>${fi.name}</td>
 						<td>
@@ -45,6 +46,14 @@
 					</tr>
 				</c:forEach>
 			</tbody>
+			<tfoot>
+	  			<tr>
+	  				<!-- 分页处理 -->
+	  				<td colspan="6"  style="text-align:center; ">
+	  					<fk:page  url="/docs/show"  page="${page}" />
+	  				</td>
+	  			</tr>
+		  		</tfoot>
 		</table>
 	</div>
 </body>

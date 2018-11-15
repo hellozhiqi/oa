@@ -18,8 +18,12 @@ import org.fkjava.docs.service.FileService;
 import org.fkjava.identity.domain.User;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 public class FileServiceImpl implements FileService, InitializingBean {
@@ -43,11 +47,11 @@ public class FileServiceImpl implements FileService, InitializingBean {
 	public void save(User user, String name, String contentType, long fileSize, InputStream in) {
 
 		String fileName = UUID.randomUUID().toString().replace("-", "");
-		
+
 		System.out.println(fileName);
 		System.out.println(contentType);
 		System.out.println(fileSize);
-		
+
 		// 保存文件内容
 		File file = new File(dir, fileName);
 		Path target = file.toPath();
@@ -63,21 +67,21 @@ public class FileServiceImpl implements FileService, InitializingBean {
 		info.setFileSize(fileSize);
 		info.setName(name);
 		info.setUploadTime(new Date());
-		info.setUser(user);//贡献者
+		info.setUser(user);// 贡献者
 
 		fileDao.save(info);
 	}
 
 	@Override
 	public FileInfo findById(String id) {
-		
+
 		return this.fileDao.findById(id);
 	}
 
 	@Override
 	public InputStream getFileContent(FileInfo fileInfo) {
-		 
-		File file=new File(dir, fileInfo.getFileName());
+
+		File file = new File(dir, fileInfo.getFileName());
 		FileInputStream in = null;
 		try {
 			in = new FileInputStream(file);
@@ -88,10 +92,20 @@ public class FileServiceImpl implements FileService, InitializingBean {
 	}
 
 	@Override
-	public List<FileInfo> findAll() {
-		
-		List<FileInfo> infos = fileDao.findAll();
-		
-		return infos;
+	public Page<FileInfo> show(int number, String keyword) {
+
+		if (StringUtils.isEmpty(keyword)) {
+			keyword = null;
+		}
+		// 每页10条
+		Pageable pageable = PageRequest.of(number, 10);
+		Page<FileInfo> page = null;
+		if (keyword == null) {
+			page = fileDao.findAll(pageable);
+		}else {
+			//根据文件名，前后模糊
+			page=fileDao.findByNameContaining(keyword,pageable);
+		}
+		return page;
 	}
 }

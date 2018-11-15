@@ -11,7 +11,7 @@
 		<h3>文件上传</h3>
 		<div>
 			<form action="/docs/upload" enctype="multipart/form-data" method="post">
-				<input type="file" name="file"/>
+				<input type="file" name="file" required="required"/>
 				 <input type="hidden"
 								name="${_csrf.parameterName}"
 								value="${_csrf.token}"/>

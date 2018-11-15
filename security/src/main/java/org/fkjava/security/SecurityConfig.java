@@ -26,9 +26,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		// 登录成功页面
+		// 登录页面
 		registry.addViewController("/security/login").setViewName("security/login");
+		//找到欢迎页
 		registry.addViewController("/index").setViewName("security/index");
+		//重定向到首页
 		registry.addRedirectViewController("/", "/index");
 	}
 
