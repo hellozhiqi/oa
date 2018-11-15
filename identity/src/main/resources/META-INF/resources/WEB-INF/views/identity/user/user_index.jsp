@@ -22,6 +22,7 @@
 			  	<div  class="btn-add">
 			 			添加<span>
 			 				<img class="add-img" alt="" src="${ctx}/images/add.png">
+			 				
 			 			</span>
 				</div>
 		  </div>
@@ -83,7 +84,7 @@
 		  			<tr>
 		  				<!-- 分页处理 -->
 		  				<td colspan="5"  style="text-align:center; ">
-		  					<fk:page  url="/identity/show"  page="${page }" />
+		  					<fk:page  url="/identity/show?keyword=${param.keyword}"  page="${page }" />
 		  				</td>
 		  			</tr>
 		  		</tfoot>

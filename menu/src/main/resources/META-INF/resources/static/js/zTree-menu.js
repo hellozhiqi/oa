@@ -1,3 +1,17 @@
+$(function(){
+		/**
+		 * 解决AJAX访问的时候CSRF验证的问题
+		 */
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		// 在所有的AJAX请求发送之前，统一设置请求头
+		// 这种方式设置的，只能处理通过jQuery发送的AJAX请求
+		if (token && header) {
+			$(document).ajaxSend(function(e, xhr, options) {
+				xhr.setRequestHeader(header, token);
+			});
+		}
+})
 var added=false;//限制每次只能添加一个按钮
 var addHoverDom=function(treeId, treeNode) {
 	
@@ -49,7 +63,6 @@ var setting = {
 	callback:{
 		onSelected: showToForm,
 		beforeDrop:BeforeDrop,
-		beforeDrag: BeforeDrag,
 		beforeRemove : beforeRemoveNode
 	}
 };
@@ -98,10 +111,6 @@ $(document).ready(function(){
 	$.fn.zTree.init($("#treeDemo"), setting);
 });
 
-function BeforeDrag(treeId, treeNodes){
-
-	return true;
-}
 function BeforeDrop(treeId, treeNodes, targetNode, moveType){
 	
 	var param=new Object();
@@ -121,7 +130,7 @@ function BeforeDrop(treeId, treeNodes, targetNode, moveType){
 		data:param,
 		success:function(msg){
 			if(msg.status===1){
-				BeforeDrag(treeId, treeNodes);
+				return true;
 			}
 		},error:function(msg){
 			alert(msg.responseJSON.message);
@@ -158,5 +167,6 @@ function beforeRemoveNode(treeId, treeNode){
 			alert(data.responseJSON.message);
 		}
 	});
+	
 	return false;
 }

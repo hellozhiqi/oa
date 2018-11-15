@@ -7,13 +7,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.fkjava.security.interceptors.UserHoderInterceptor;
+import org.fkjava.security.service.SecurityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -23,12 +28,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan("org.fkjava") // 如果不写，则只扫描当前包，不扫identity
 @EnableJpaRepositories
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+	
+	@Autowired
+	private SecurityService securityConfig;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		// 登录成功页面
+		// 登录页面
 		registry.addViewController("/security/login").setViewName("security/login");
+		//找到欢迎页
 		registry.addViewController("/index").setViewName("security/index");
+		//重定向到首页
 		registry.addRedirectViewController("/", "/index");
 	}
 
@@ -71,10 +83,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 				.loginProcessingUrl("/security/do-login")// 处理登录的url
 				.usernameParameter("loginName")// 登录 名的参数,与jsp的name关联
 				.passwordParameter("password")// 同上
-				.failureHandler(failureHandler)
+				.failureHandler(failureHandler)//登录失败的处理器
 				.and().logout().logoutUrl("/security/do-logout")
 				// .and().httpBasic()// 也可以基于HTTP的标准验证方法（弹出对话框）
 				.and().csrf();// 激活防跨站攻击功能
+	}
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	 
+		DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
+		provider.setHideUserNotFoundExceptions(false);
+		provider.setUserDetailsService(securityConfig);
+		provider.setPasswordEncoder(passwordEncoder);
+		auth.authenticationProvider(provider);
 	}
 
 	public static void main(String[] args) {

@@ -38,5 +38,6 @@
   	<module>menu</module>
   	<module>layout</module>
   	<module>security</module>
+  	<module>docs</module>
   </modules>
 </project>

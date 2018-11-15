@@ -6,5 +6,16 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>resourse</artifactId>
-
+<dependencies>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>jstl</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>javax.servlet</groupId>
+		<artifactId>javax.servlet-api</artifactId>
+		<!-- Tomcat自带的，不要打包 -->
+		<scope>provided</scope>
+	</dependency>
+</dependencies>
 </project>

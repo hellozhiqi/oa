@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>欢迎页</title>
+<title>首页</title>
 </head>
 <body>
 	<div class="col-sm-12 col-md-6 col-md-offset-3 text-center">

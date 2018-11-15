@@ -46,8 +46,12 @@
 						name="${_csrf.parameterName}"
 						value="${_csrf.token}"/>
           </form>
+          <!-- 搜索框 -->
           <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
+          
+          	  <input type="text" class="form-control" placeholder="请输入关键字，按回车键搜索哟"
+          	   name="keyword" value="${param.keyword }">
+            
           </form>
         </div>
       </div>
@@ -61,5 +65,6 @@
         </div>
       </div>
     <script type="text/javascript" src="${ctx }/js/index.js" ></script>
+	
   </body>
 </html>
