@@ -57,7 +57,7 @@
 	  			<tr>
 	  				<!-- 分页处理 -->
 	  				<td colspan="6"  style="text-align:center; ">
-	  					<fk:page  url="/docs/show"  page="${page}" />
+	  					<fk:page  url="/docs/show?keyword=${param.keyword }"  page="${page}" />
 	  				</td>
 	  			</tr>
 		  		</tfoot>

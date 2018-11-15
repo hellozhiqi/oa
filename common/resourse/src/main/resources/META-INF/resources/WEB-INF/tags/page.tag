@@ -4,11 +4,17 @@
 <%@ attribute name="url" required="true" type="java.lang.String" %>
 <%@ attribute  name="page" required="true" type="org.springframework.data.domain.Page"%>
 
+<c:if test="${url.indexOf('?')>=0 }">
+	<c:set var="url" value="${ctx}${url}&pageNumber=" />
+</c:if>
+<c:if test="${url.indexOf('?')<0 }">
+	<c:set var="url" value="${ctx}${url}?pageNumber=" />
+</c:if>
 <c:if test="${not empty page }">
 	<nav>
 	  <ul class="pagination">
 	    <li>
-	      <a href="${ctx}${url}?pageNumber=${page.number eq 0 ? 0 : page.number - 1}" aria-label="上一页">
+	      <a href="${url }${page.number eq 0 ? 0 : page.number - 1}" aria-label="上一页">
 	       		 <span aria-hidden="true">&laquo;</span>
 	      </a>
 	    </li>
@@ -29,11 +35,11 @@
 	    </c:if>
         <c:forEach begin="${begin }" end="${end }" var="number">
       		 <li class="${page.number eq number ? 'active' : ' '}">
-      		 	<a href="${ctx}${url}?pageNumber=${number}">${number+1 }</a>
+      		 	<a href="${url }${number}">${number+1 }</a>
       		 </li>
         </c:forEach>
 	    <li>
-	      <a href="${ctx }${url}?pageNumber=${page.number ge(page.totalPages - 1) ? page.totalPages - 1 : page.number + 1}" 
+	      <a href="${url }${page.number ge(page.totalPages - 1) ? page.totalPages - 1 : page.number + 1}" 
 	      		aria-label="下一页">
 	        <span aria-hidden="true">&raquo;</span>
 	      </a>
