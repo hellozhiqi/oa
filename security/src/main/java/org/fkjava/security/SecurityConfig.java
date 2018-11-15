@@ -83,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 				.loginProcessingUrl("/security/do-login")// 处理登录的url
 				.usernameParameter("loginName")// 登录 名的参数,与jsp的name关联
 				.passwordParameter("password")// 同上
-				.failureHandler(failureHandler)
+				.failureHandler(failureHandler)//登录失败的处理器
 				.and().logout().logoutUrl("/security/do-logout")
 				// .and().httpBasic()// 也可以基于HTTP的标准验证方法（弹出对话框）
 				.and().csrf();// 激活防跨站攻击功能

@@ -8,10 +8,14 @@ import javax.servlet.DispatcherType;
 import org.sitemesh.config.ConfigurableSiteMeshFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.ErrorPageRegistrar;
+import org.springframework.boot.web.server.ErrorPageRegistry;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.HttpStatus;
 
 @SpringBootApplication
 @ComponentScan("org.fkjava")//如果不写，则只扫描当前包，不扫identity
@@ -40,8 +44,22 @@ public class LayoutConfig {
 				+ "/security/login=/WEB-INF/views/layout/simple.jsp");
 		//initParameters.put("exclude", "/menu,/identity/role/*");
 		//initParameters.put("exclude", "/security/index");
+		//包含错误页面
+		initParameters.put("includeErrorPages", "true");
 		bean.setInitParameters(initParameters);
 		
 		return bean;
+	}
+	
+	@Bean
+	public ErrorPageRegistrar errorPageRegistrar() {
+		ErrorPageRegistrar errorPageRegistrar=new ErrorPageRegistrar() {
+			
+			@Override
+			public void registerErrorPages(ErrorPageRegistry registry) {
+				registry.addErrorPages(new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR,"/layout/error"));
+			}
+		};
+		return errorPageRegistrar;
 	}
 }

@@ -65,5 +65,6 @@
         </div>
       </div>
     <script type="text/javascript" src="${ctx }/js/index.js" ></script>
+	
   </body>
 </html>
