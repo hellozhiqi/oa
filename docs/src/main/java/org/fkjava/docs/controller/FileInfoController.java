@@ -11,18 +11,21 @@ import org.fkjava.docs.service.FileService;
 import org.fkjava.identity.domain.User;
 import org.fkjava.identity.service.IdentityService;
 import org.fkjava.identity.util.UserHoder;
+import org.fkjava.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
@@ -101,5 +104,11 @@ public class FileInfoController {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+	@DeleteMapping("delete/{id}")
+	@ResponseBody
+	public Result delect(@PathVariable String id) {
+		Result result=fileService.delect(id);
+		return result;
 	}
 }

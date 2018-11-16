@@ -17,6 +17,7 @@ import org.fkjava.docs.repository.FileDao;
 import org.fkjava.docs.service.FileService;
 import org.fkjava.identity.domain.User;
 import org.fkjava.identity.util.UserHoder;
+import org.fkjava.vo.Result;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,16 +32,18 @@ public class FileServiceImpl implements FileService, InitializingBean {
 
 	@Autowired
 	private FileDao fileDao;
+	
+	String dir="/home/mia/temp";
 	// 文件保存路径
-	private File dir = new File("/home/mia/temp");
+	private File file = new File(dir);
 
 	// 实现InitializingBean该接口后，在Bean完成创建并注入后，调用该方法
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if (!dir.exists()) {
-			dir.mkdirs();
+		if (!file.exists()) {
+			file.mkdirs();
 		}
-		System.out.println("文件实际存储位置：" + dir.getAbsolutePath());
+		System.out.println("文件实际存储位置：" + file.getAbsolutePath());
 	}
 
 	@Transactional
@@ -110,5 +113,22 @@ public class FileServiceImpl implements FileService, InitializingBean {
 			page=fileDao.findByUserAndNameContaining(user,keyword,pageable);
 		}
 		return page;
+	}
+
+	@Override
+	public Result delect(String id) {
+		 
+		FileInfo fileInfo = fileDao.findById(id);
+		if(fileInfo!=null) {
+			//从硬盘中删除文件
+			File file=new File(dir,fileInfo.getFileName());
+			file.delete();
+			//删除数据库文件信息
+			fileDao.delete(fileInfo);
+			
+			return Result.of(Result.STATUS_OK);
+		}
+		
+		return  Result.of(Result.STATUS_ERROR);
 	}
 }

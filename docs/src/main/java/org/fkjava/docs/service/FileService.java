@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.fkjava.docs.domain.FileInfo;
 import org.fkjava.identity.domain.User;
+import org.fkjava.vo.Result;
 import org.springframework.data.domain.Page;
 
 public interface FileService {
@@ -16,5 +17,7 @@ public interface FileService {
 	InputStream getFileContent(FileInfo fileInfo);
 
 	Page<FileInfo> show(int number, String keyword);
+
+	Result delect(String id);
 
 }
