@@ -35,6 +35,9 @@ public class IdentityServiceImpl implements IdentityService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	/**
+	 * 保存用户
+	 */
 	@Override
 	public void save(User user) {
 
@@ -106,6 +109,9 @@ public class IdentityServiceImpl implements IdentityService {
 		return Result.of(Result.STATUS_OK);
 	}
 
+	/**
+	 * 展示用户列表
+	 */
 	@Override
 	public Page<User> show(int number, String keyword) {
 
@@ -125,6 +131,9 @@ public class IdentityServiceImpl implements IdentityService {
 		return page;
 	}
 
+	/**
+	 * 点击修改用户
+	 */
 	@Override
 	public User findUserById(String id) {
 
@@ -133,7 +142,9 @@ public class IdentityServiceImpl implements IdentityService {
 		return user;
 	}
 
-	/* 激活 */
+	/**
+	 * 激活账户
+	 */
 	@Override
 	@Transactional
 	public void active(String id) {
@@ -159,7 +170,7 @@ public class IdentityServiceImpl implements IdentityService {
 	}
 
 	/**
-	 * 禁用
+	 * 禁用账户
 	 */
 	@Override
 	@Transactional
@@ -171,6 +182,9 @@ public class IdentityServiceImpl implements IdentityService {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public Optional<User> findByLoginName(String username) {
 		

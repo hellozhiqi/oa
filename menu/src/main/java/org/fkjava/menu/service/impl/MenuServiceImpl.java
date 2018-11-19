@@ -36,6 +36,9 @@ public class MenuServiceImpl implements MenuService {
 	@Autowired
 	private UserRepository userRepository;
 
+	/**
+	 * 保存菜单
+	 */
 	@Override
 	public void save(Menu menu) {
 
@@ -87,12 +90,17 @@ public class MenuServiceImpl implements MenuService {
 		menuRepository.save(menu);
 	}
 
+	/**
+	 * 查找一级菜单（父级）
+	 */
 	@Override
 	public List<Menu> findTopMenu() {
-
 		return this.menuRepository.findByParentNullOrderByNumber();
 	}
 
+	/**
+	 * 拖拽菜单
+	 */
 	@Override
 	@Transactional
 	public Result move(String id, String targetId, String moveType) {
@@ -178,6 +186,9 @@ public class MenuServiceImpl implements MenuService {
 		return Result.of(Result.STATUS_OK);
 	}
 
+	/**
+	 * 删除菜单
+	 */
 	@Override
 	public Result delect(String id) {
 
@@ -243,15 +254,15 @@ public class MenuServiceImpl implements MenuService {
 					// 返回菜单的时候,由于通过权限组装数据,所以需要修改数据
 					Menu menu = copy(parent);
 					childs.forEach(child -> {
-						Menu second = this.copy(child);	// 二级菜单
+						Menu second = this.copy(child); // 二级菜单
 						menu.getChilds().add(second);
 					});
-					menu.getChilds().sort(comparator);//排序二级菜单
+					menu.getChilds().sort(comparator);// 排序二级菜单
 					topMenu.add(parent);
 				});
 
-		topMenu.sort(comparator);//排序一级菜单
-		
+		topMenu.sort(comparator);// 排序一级菜单
+
 		return topMenu;
 	}
 

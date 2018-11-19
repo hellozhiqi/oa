@@ -24,6 +24,9 @@ public class RoleController {
 	@Autowired
 	private RoleService roleService;
 
+	/**
+	 * 展示角色列表
+	 */
 	@GetMapping
 	public ModelAndView show() {
 		ModelAndView view = new ModelAndView("identity/role/role_index");
@@ -32,6 +35,11 @@ public class RoleController {
 		return view;
 	}
 
+	/**
+	 * 检查RoleKey是否唯一
+	 * @param roleKey
+	 * @param model
+	 */
 	@PostMapping("/checked")
 	@ResponseBody // 会转换成json或则xml
 	public Result chckedRoleKey(@RequestParam("roleKey") String roleKey, Model model) {
@@ -39,6 +47,10 @@ public class RoleController {
 		return result;
 	}
 
+	/**
+	 * 保存角色
+	 * @param role
+	 */
 	@PostMapping
 	public String save(Role role) {
 		
@@ -46,6 +58,12 @@ public class RoleController {
 		
 		return "redirect:/identity/role";
 	}
+	
+	/**
+	 * 删除角色
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("{id}")
 	@ResponseBody
 	public String delete(@PathVariable("id")String id) {

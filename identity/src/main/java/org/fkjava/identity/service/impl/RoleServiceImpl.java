@@ -33,6 +33,9 @@ public class RoleServiceImpl implements RoleService, InitializingBean {
 
 	}
 
+	/**
+	 * 保存角色
+	 */
 	@Override
 	public void save(Role role) {
 
@@ -65,6 +68,9 @@ public class RoleServiceImpl implements RoleService, InitializingBean {
 		return Result.of(Result.STATUS_OK);
 	}
 
+	/**
+	 * 展示角色列表
+	 */
 	@Override
 	public List<Role> show() {
 
@@ -72,17 +78,26 @@ public class RoleServiceImpl implements RoleService, InitializingBean {
 		return roles;
 	}
 
+	/**
+	 * 删除角色
+	 */
 	@Override
 	public void deleteById(String id) {
 		roleRepository.deleteById(id);
 	}
 
+	/**
+	 * 查询所有不固定的角色
+	 */
 	@Override
 	public List<Role> findAllNotFixed() {
 		List<Role> roles = roleRepository.findByFixedFalse();
 		return roles;
 	}
 
+	/**
+	 * 查询所有角色
+	 */
 	@Override
 	public List<Role> findAll() {
 		List<Role> roles = roleRepository.findAll();
