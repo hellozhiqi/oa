@@ -1,3 +1,5 @@
+<%@page import="java.util.Enumeration"%>
+<%@page import="java.util.EnumMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -35,7 +37,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#">首页</a></li>
-            <li><a href="#">个人</a></li>
+            <li><a href="#">${sessionScope['SPRING_SECURITY_CONTEXT'].authentication.principal.username }</a></li>
             <li><a href="#">设置</a></li>
             <li><a href="#">帮助</a></li>
             <li><a href="#" onclick="$('#logout-form').submit();">退出</a></li>

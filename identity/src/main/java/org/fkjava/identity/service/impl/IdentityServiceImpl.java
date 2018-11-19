@@ -113,7 +113,7 @@ public class IdentityServiceImpl implements IdentityService {
 			keyword = null;
 		}
 		// 分页条件
-		Pageable pageable = PageRequest.of(number, 2);
+		Pageable pageable = PageRequest.of(number, 8);
 		Page<User> page;
 		if (keyword == null) {
 			// 分页查询所有数据
@@ -122,7 +122,6 @@ public class IdentityServiceImpl implements IdentityService {
 			// 根据姓名查询，前后模糊查询
 			page = userRepository.findByNameContaining(keyword, pageable);
 		}
-
 		return page;
 	}
 

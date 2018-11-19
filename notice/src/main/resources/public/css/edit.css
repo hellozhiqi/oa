@@ -1,0 +1,21 @@
+/*编辑公告 标题*/
+.titleText{
+	width: 50%;
+	margin-left: 2%;
+	margin-bottom: 1%;
+}
+.titleType{
+	width: 50%;
+	margin-left: 2%;
+	margin-bottom: 1%;
+}
+.selectType{
+	text-align: center;
+}
+option{
+	margin-left: 120px;
+	width: 50%;
+}
+.toolbgline{
+    border-bottom: 1px solid #bfbfbf;
+}

@@ -39,5 +39,6 @@
   	<module>layout</module>
   	<module>security</module>
   	<module>docs</module>
+  	<module>notice</module>
   </modules>
 </project>

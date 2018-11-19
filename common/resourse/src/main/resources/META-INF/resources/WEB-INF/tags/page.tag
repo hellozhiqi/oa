@@ -10,7 +10,7 @@
 <c:if test="${url.indexOf('?')<0 }">
 	<c:set var="url" value="${ctx}${url}?pageNumber=" />
 </c:if>
-<c:if test="${not empty page }">
+<c:if test="${not empty page and page.totalPages ne 0 }">
 	<nav>
 	  <ul class="pagination">
 	    <li>
@@ -46,4 +46,7 @@
 	    </li>
 	  </ul>
 	</nav>
+</c:if>
+<c:if test="${empty page or page.totalPages eq 0}">
+	没有任何数据
 </c:if>
