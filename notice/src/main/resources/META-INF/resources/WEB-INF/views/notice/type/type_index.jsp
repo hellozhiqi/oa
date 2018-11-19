@@ -14,12 +14,6 @@
 <div class="container">
 	<div class="panel panel-default ">
 		  <div class="panel-heading  title-color"> 公告类型
-		  		<!-- 添加按钮 -->
-			  	<div  class="btn-add" data-toggle="modal" data-target="#myModal">
-			 			添加<span>
-			 				<img class="add-img" alt="" src="${ctx}/images/add.png">
-			 			</span>
-				</div>
 		  </div>
 		  <div  class="panel-body">
 		  		<div class="col-sm-12 col-md-6">

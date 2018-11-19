@@ -40,5 +40,11 @@
 		<!-- 可选的 -->
 		<optional>true</optional>
 	</dependency>
+	<!-- 富文本编辑 -->
+	<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>wangEditor</artifactId>
+			<version>3.1.1</version>
+		</dependency>
   </dependencies>
 </project>

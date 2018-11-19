@@ -3,7 +3,7 @@ var chckedTypeName=function chckedTypeName(obj){
 		if(obj!=""){
 			$.ajax({
 				  type: "post",
-				  url: "/notice/checked",
+				  url: "/notice/type/checked",
 				  data: $(".form-horizontal").serialize(),
 				  success:function(msg){
 				    /**边框样式*/
@@ -67,14 +67,14 @@ $(function(){
 			event.stopPropagation();
 			var div = $(this).parent();
 			var id = div.attr("data-id");
-			var url="/notice/"+id;
+			var url="/notice/type/"+id;
 			
 			// 发送DELETE请求删除数据
 			$.ajax({
 				url:url,
 				method:'DELETE',
 				success:function(data,status,xhr){
-					document.location.href="/notice";
+					document.location.href="/notice/type";
 				},
 				error:function(data,status,xhr){
 					// responseJSON表示返回的JSON对象

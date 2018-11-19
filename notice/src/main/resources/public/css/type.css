@@ -6,7 +6,8 @@
 	background-color: #94d6da;
 }
 .container{
-		width: 98%;
+		width: 104%;
+		margin-left: -30px;
 }
 .btn-add{
 	float: right;
@@ -39,3 +40,18 @@
 		width: 25px;
 		height: 25px;
 	}
+.col-sm-2{
+	text-align: center;
+}
+.col-sm-1{
+	text-align: center;
+}
+/*未读样式*/
+.unread{
+	font-size: 18px;
+	font-weight: bold;
+}
+/*编辑公告 标题*/
+.titleText{
+	width: 100%;
+}

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/notice")
+@RequestMapping("/notice/type")
 public class NoticeTypeController {
 
 	@Autowired
@@ -39,12 +39,10 @@ public class NoticeTypeController {
 		return result;
 	}
 
-	@PostMapping("type")
+	@PostMapping
 	public String save(NoticeType notice) {
-		
 		noticeTypeService.save(notice);
-		
-		return "redirect:/notice";
+		return "redirect:/notice/type";
 	}
 	@DeleteMapping("{id}")
 	@ResponseBody

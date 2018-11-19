@@ -5,12 +5,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.fkjava.docs.domain.FileInfo;
 import org.fkjava.docs.service.FileService;
-import org.fkjava.identity.domain.User;
 import org.fkjava.identity.service.IdentityService;
-import org.fkjava.identity.util.UserHoder;
 import org.fkjava.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,29 +42,64 @@ public class FileInfoController {
 	@PostMapping("upload")
 	public String upload(@RequestParam("file") MultipartFile file) {
 
-		String fileName = file.getOriginalFilename();
-		String contentType = file.getContentType();
-		long fileSize = file.getSize();
+		this.wangEditorUpload(file);
 
-		User user = UserHoder.get();
-		user = identityService.findUserById(user.getId());
-
-		try (InputStream in = file.getInputStream();) {
-			fileService.save(user, fileName, contentType, fileSize, in);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		return "redirect:/docs/show";
 	}
 
+	@PostMapping("upload/wangEditor")
+	@ResponseBody
+	public WangEditorResponse wangEditorUpload(@RequestParam("file") MultipartFile file) {
+
+		FileInfo info = new FileInfo();
+		
+		info.setName(file.getOriginalFilename());
+		info.setContentType(file.getContentType());
+		info.setFileSize(file.getSize());
+
+		try (InputStream in = file.getInputStream();) {
+			fileService.save(info, in);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		WangEditorResponse wangEditorResponse = new WangEditorResponse();
+		wangEditorResponse.setErrno(0);// 上传成功
+		wangEditorResponse.getData().add("/docs/download/" + info.getId());
+
+		return wangEditorResponse;
+	}
+
+	public static class WangEditorResponse {
+
+		private int errno;
+		private List<String> data = new LinkedList<>();
+
+		public int getErrno() {
+			return errno;
+		}
+
+		public void setErrno(int errno) {
+			this.errno = errno;
+		}
+
+		public List<String> getData() {
+			return data;
+		}
+
+		public void setData(List<String> data) {
+			this.data = data;
+		}
+	}
+
 	@GetMapping("show")
-	public ModelAndView show(@RequestParam(name = "pageNumber", defaultValue = "0") int number
-			,@RequestParam(name="keyword",required=false) String keyword) {
+	public ModelAndView show(@RequestParam(name = "pageNumber", defaultValue = "0") int number,
+			@RequestParam(name = "keyword", required = false) String keyword) {
 
 		ModelAndView view = new ModelAndView();
 		view.setViewName("download/show");
-		
-		Page<FileInfo> page = fileService.show(number,keyword);
+
+		Page<FileInfo> page = fileService.show(number, keyword);
 		view.addObject("page", page);
 
 		return view;
@@ -105,10 +140,11 @@ public class FileInfoController {
 			throw new RuntimeException(e);
 		}
 	}
+
 	@DeleteMapping("delete/{id}")
 	@ResponseBody
 	public Result delect(@PathVariable String id) {
-		Result result=fileService.delect(id);
+		Result result = fileService.delect(id);
 		return result;
 	}
 }
