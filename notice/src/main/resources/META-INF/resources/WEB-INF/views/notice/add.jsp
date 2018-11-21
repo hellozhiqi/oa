@@ -20,18 +20,26 @@
 			 	
 				<input type="hidden" name="id" value="${notice.id}"/>
 				<!-- 标题 -->
-				<label for="title">主题</label>
-				<input type="text" name="title" class="titleText" required="required" value="${notice.title}"><br>
-				<label for="title">类型</label>
-				<select  class="titleType" name="type.id">
-					<option value="">==请选择==</option>
-					<c:forEach items="${types }" var="type">
-						<option value="${type.id }" ${notice.type.id eq type.id ? 'selected="selected" ' :' '}>
-							${type.name }
-						</option>
-					</c:forEach>
-				</select>
-				<br>
+				 <div class="col-xm-12">
+						   <div class="form-group">
+							    <label for="title" class="col-sm-1">主题</label>
+							  	<input type="text" name="title" class="form-control titleText" required="required" value="${notice.title}">
+						</div>
+				</div>
+				 <div class="col-xm-12">
+						   <div class="form-group">
+						   		<label for="type"  class="col-sm-1">类型</label>
+							  	<select  class="form-control titleType" name="type.id" required="required">
+									<option value="">-------请选择-------</option>
+									<c:forEach items="${types }" var="type">
+										<option value="${type.id }" ${notice.type.id eq type.id ? 'selected="selected" ' :' '}>
+											${type.name }
+										</option>
+									</c:forEach>
+								</select>
+						</div>
+				</div>
+				
 				<!-- 编辑的内容 -->
 				<label for="text">正文</label>
 				<div id="noticeContentEditor">${notice.content }</div>

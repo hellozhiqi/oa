@@ -154,7 +154,8 @@ var edit = function edit(id) {
 //姓名校验
 var loginNameIcon = function loginNameIcon(obj) {
         if (obj != "") {
-                var ret = /^[A-Za-z]+$/;
+        		/*匹配英文中文 2个字符以上，不超过15个*/
+                var ret =/^[a-zA-Z\u4e00-\u9fa5]{2,15}$/;
                 if (ret.test(obj)) {
                         $('.badge-icon1').toggleClass(function() {
                                 return "badge-icon1"
@@ -170,7 +171,7 @@ var loginNameIcon = function loginNameIcon(obj) {
                         $('#ok_error1').removeClass("glyphicon glyphicon-ok");
                         $('#ok_error1').addClass("glyphicon glyphicon-remove");
                         $(".nameIcon .badge").css("background-color", "red");
-                        $("#nameTig").html("<font color='red'>请输入至少2个字符以上</font>");
+                        $("#nameTig").html("<font color='red'>请输入2～15字符</font>");
                 }
         } else {
                 $('#name_icon').addClass("badge-icon1");

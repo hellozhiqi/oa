@@ -3,9 +3,7 @@ package org.fkjava.menu.controller;
 import java.util.List;
 
 import org.fkjava.identity.domain.Role;
-import org.fkjava.identity.domain.User;
 import org.fkjava.identity.service.RoleService;
-import org.fkjava.identity.util.UserHoder;
 import org.fkjava.menu.domain.Menu;
 import org.fkjava.menu.service.MenuService;
 import org.fkjava.vo.Result;
@@ -29,7 +27,7 @@ public class MenuController {
 	private MenuService menuService;
 
 	/**
-	 * 展示菜单页面
+	 * 展示菜单视图
 	 * 
 	 * @return
 	 */
@@ -74,7 +72,6 @@ public class MenuController {
 	@PostMapping("move")
 	@ResponseBody
 	public Result move(String id, String targetId, String moveType) {
-		System.out.println("id=" + id + "==== targetId=" + targetId);
 		return menuService.move(id, targetId, moveType);
 	}
 

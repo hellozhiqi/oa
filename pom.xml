@@ -10,7 +10,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>父项目</description>
-  
+  <!-- 可参考借鉴网上:http://www.78oa.com/products/products165.html -->
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -40,5 +40,6 @@
   	<module>security</module>
   	<module>docs</module>
   	<module>notice</module>
+  	<module>human-resource</module>
   </modules>
 </project>

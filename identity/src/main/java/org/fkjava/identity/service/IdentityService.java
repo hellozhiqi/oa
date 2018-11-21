@@ -1,5 +1,6 @@
 package org.fkjava.identity.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.fkjava.identity.domain.User;
@@ -48,9 +49,16 @@ public interface IdentityService {
 	void disable(String id);
 
 	/**
-	 * 
+	 * 检查登录名是否唯一
 	 * @param username
 	 * @return
 	 */
 	Optional<User> findByLoginName(String username);
+
+	/**
+	 * 根据关键字返回用户
+	 * @param keyword
+	 * @return
+	 */
+	List<User> findUsers(String keyword);
 }

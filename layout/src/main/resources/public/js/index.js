@@ -12,7 +12,7 @@ $(document).ready(function () {
 			 
 			 var html=`<div><div  onclick='showOrhide(this)'  class='menu_first'>
 			 						<span class='menu_first_span' style='border-top: 20px;'>${item.name}</span>
-			 					</div><ul class='nav nav-sidebar' name='nav-sidebar'>`
+			 					</div><ul class='nav nav-sidebar' name='nav-sidebar' style='display: none;'>`
 				var first=``;
 			 html+=first;
 			 //如果有二级

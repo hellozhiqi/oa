@@ -115,19 +115,7 @@ public class IdentityServiceImpl implements IdentityService {
 	@Override
 	public Page<User> show(int number, String keyword) {
 
-		if (StringUtils.isEmpty(keyword)) {
-			keyword = null;
-		}
-		// 分页条件
-		Pageable pageable = PageRequest.of(number, 8);
-		Page<User> page;
-		if (keyword == null) {
-			// 分页查询所有数据
-			page = userRepository.findAll(pageable);
-		} else {
-			// 根据姓名查询，前后模糊查询
-			page = userRepository.findByNameContaining(keyword, pageable);
-		}
+		Page<User> page = this.findAllUsers(keyword, number, 8);
 		return page;
 	}
 
@@ -187,10 +175,46 @@ public class IdentityServiceImpl implements IdentityService {
 	 */
 	@Override
 	public Optional<User> findByLoginName(String username) {
-		
-		 User user=userRepository.findByLoginName(username);
-		 Optional<User> ofNullable = Optional.ofNullable(user);
-		 
+
+		User user = userRepository.findByLoginName(username);
+		Optional<User> ofNullable = Optional.ofNullable(user);
+
 		return ofNullable;
+	}
+
+	/**
+	 * 根据关键字返回用户
+	 */
+	@Override
+	public List<User> findUsers(String keyword) {
+		Page<User> page = findAllUsers(keyword, 0, 15);
+		return page.getContent();
+	}
+
+	/**
+	 * 相同代码
+	 * 
+	 * @param keyword
+	 * @param number
+	 * @param size
+	 * @return
+	 */
+	private Page<User> findAllUsers(String keyword, Integer number, Integer size) {
+
+		if (StringUtils.isEmpty(keyword)) {
+			keyword = null;
+		}
+		// 分页条件
+		Pageable pageable = PageRequest.of(number, size);
+		Page<User> page;
+		if (keyword == null) {
+			// 分页查询所有数据
+			page = userRepository.findAll(pageable);
+		} else {
+			// 根据姓名查询，前后模糊查询
+			page = userRepository.findByNameContaining(keyword, pageable);
+		}
+
+		return page;
 	}
 }

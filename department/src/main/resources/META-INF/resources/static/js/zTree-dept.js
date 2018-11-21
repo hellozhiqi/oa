@@ -36,7 +36,7 @@ var setting = {
 			// 激活异步请求
 			enable: true,
 			// 异步请求的URL，默认POST方式发送请求
-			url: "/menu",
+			url: "/dept",
 			// 使用GET方式发送请求
 			type: "GET",
 			// 要求返回JSON，数据类型参考jQuery的dataType
@@ -76,14 +76,19 @@ function removeHoverDom(treeId, treeNode) {
 function showToForm(treeId, node){
 	var id=node.id;
 	var name=node.name;
-	var url=node.url;
-	var type=node.type;
-	var roles=node.roles;
+	var telephone=node.telephone;
+	var fax=node.fax;
+	var fun=node.fun;
+	
+	if(node.manager &&node.manager.user){
+		var userName = node.manager.user.name;
+		$("#selectedManager").val(userName);
+	}
 	$(".form-horizontal #id").val(id);
 	$(".form-horizontal #inputName").val(name);
-	$(".form-horizontal #inputURL").val(url);
-	$(".form-horizontal input[name='type'][value='"+type+"']").prop("checked",true);
-	
+	$(".form-horizontal #inputTelephone").val(telephone);
+	$(".form-horizontal #inputFax").val(fax);
+	$(".form-horizontal #inputFun").val(fun);
 	//处理上级菜单
 	var parentNode=node.getParentNode();
 	if(parentNode){
@@ -96,19 +101,18 @@ function showToForm(treeId, node){
 		//span,div,可以用text,html追加内容
 		$(".form-horizontal #parentName").text("");
 	}
-	if(node.roles){
-		
-		//选中关联的角色
-		for(var i=0;i<node.roles.length;i++){
-			var role=node.roles[i];
-			$(".unselected-roles ul li input[value='"+role.id+"']").prop("checked",true);
-		}
-		//将勾选上角色添加到[以选角色]
-		$(".add-selected").click()
-	}
 }
 $(document).ready(function(){
 	$.fn.zTree.init($("#treeDemo"), setting);
+	
+	$('#selectedManager').autocomplete({
+ 		serviceUrl :'/identity/show',
+ 		dataType : "json",// 返回JSON
+ 		onSelect : function(suggestion) {
+ 			// 当选中某个选项的时候要执行的回调，需要把用户的ID存储到表单里面
+ 			$("#managerId").val( suggestion.user.id );
+ 		}
+ 	});
 });
 
 function moveNode(targetNode, treeNode, moveType){
@@ -119,7 +123,6 @@ function moveNode(targetNode, treeNode, moveType){
 	}
 	var nodes = treeObj.getNodes();
 	$.each(nodes,function(index,item){
-		
 		var treeNodeId=item.id;
 		if(treeNodeId===targetNodeId){
 			treeObj.moveNode(nodes[index], nodes[index+1], "inner");
@@ -134,38 +137,27 @@ function BeforeDrop(treeId, treeNodes, targetNode, moveType){
 	var param=new Object();
 	//要移动节点的id,同一菜单不能有相同的子菜单名称
 	param.id=treeNodes[0].id;
-	//目标位置的字节点名称
-	var targetChildrenName=new Object();
-	//移动节点的名称
-	var oldName=treeNodes[0].name;
 	//要把节点到的目标位置
 	if(targetNode){
 		param.targetId=targetNode.id;
-		$.each(targetNode.children,function(index,item){
-			targetChildrenName=item.name;
-			if(!oldName===targetChildrenName){//同一目录下有相同的子菜单
-				return true;
-			}
-		});
 	}else{
 		param.targetId="";
 	}
 	//"inner"：成为子节点，"prev"：成为同级前一个节点，"next"：成为同级后一个节点
 	param.moveType=moveType;
 	$.ajax({
-		url:"/menu/move",
+		url:"/dept/move",
 		method:"post",
-		async: false,
 		data:param,
 		success:function(msg){
-			if(msg.status===1){
+			if(msg.status===2){
 				moveNode(targetNode, treeNodes[0], moveType);
 			}
 		},error:function(msg){
 			alert(msg.responseJSON.message);
 		}
 	});
-	return false;
+	return true;
 }
 //显示删除按钮
 var showRemoveBtn = function(treeId, treeNode) {
@@ -184,7 +176,7 @@ function removeNode(treeId, treeNode) {
 function beforeRemoveNode(treeId, treeNode){
 	
 	$.ajax({
-		url:"/menu/"+treeNode.id,
+		url:"/dept/"+treeNode.id,
 		method:"DELETE",
 		dataType:"json",
 		success:function(data,status,xhr){
