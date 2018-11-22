@@ -9,6 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("layout")
 public class IndexController {
 
+	/**
+	 * 展示统一布局页面
+	 * @return
+	 */
 	@GetMapping
 	public ModelAndView index() {
 
@@ -23,5 +27,4 @@ public class IndexController {
 	public String error() {
 		return "layout/error";
 	}
-	
 }

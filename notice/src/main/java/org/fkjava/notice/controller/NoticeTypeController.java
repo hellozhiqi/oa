@@ -24,14 +24,23 @@ public class NoticeTypeController {
 	@Autowired
 	private NoticeTypeService noticeTypeService;
 
+	/**
+	 * 展示公告类型
+	 */
 	@GetMapping
 	public ModelAndView show() {
 		ModelAndView view = new ModelAndView("notice/type/type_index");
-		List<NoticeType> types=noticeTypeService.show();
-		view.addObject("types",types);
+		List<NoticeType> types = noticeTypeService.show();
+		view.addObject("types", types);
 		return view;
 	}
 
+	/**
+	 * 检查公告类型名称是否唯一
+	 * 
+	 * @param name
+	 * @param model
+	 */
 	@PostMapping("checked")
 	@ResponseBody // 会转换成json或则xml
 	public Result chckedNoticeTypeName(@RequestParam("name") String name, Model model) {
@@ -39,14 +48,25 @@ public class NoticeTypeController {
 		return result;
 	}
 
+	/**
+	 * 保存公告类型
+	 * 
+	 * @param notice
+	 */
 	@PostMapping
 	public String save(NoticeType notice) {
 		noticeTypeService.save(notice);
 		return "redirect:/notice/type";
 	}
+
+	/**
+	 * 删除公告类型
+	 * 
+	 * @param id
+	 */
 	@DeleteMapping("{id}")
 	@ResponseBody
-	public String delete(@PathVariable("id")String id) {
+	public String delete(@PathVariable("id") String id) {
 		noticeTypeService.deleteById(id);
 		return "ok";
 	}

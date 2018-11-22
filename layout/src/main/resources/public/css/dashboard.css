@@ -129,7 +129,6 @@ body {
 	height: auto;	
 	margin-bottom:0px;
 	margin-left: -5px;
-	background-color: white;
 }
 .sidebar{
 	margin-bottom: 0px;
@@ -145,16 +144,23 @@ body {
 	/*margin调整个容器的移动位置*/
 	margin-bottom:5px;
 	margin-left: -5px;
-	border-bottom: 0.5px solid silver;
-	background-color:teal ;
+	border-bottom: 0.5px dashed #000;
 }
 
 .menu_second{
 	border-bottom: 0.5px solid silver;
-	margin-left: 40px;
 	height: auto;
 }
 .menu_three{
 	margin-left: 80px;
 	border-bottom: 0.5px solid silver;
+}
+/**向右向下图标切换*/
+div.menu_first.glyphicon .glyphicon-chevron-right : :before{
+	width: 5px;
+	height: 5px;
+	background-size: 5px;
+}
+.second-css{
+	margin-left: 50px;
 }

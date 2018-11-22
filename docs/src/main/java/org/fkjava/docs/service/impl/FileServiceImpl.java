@@ -51,6 +51,9 @@ public class FileServiceImpl implements FileService, InitializingBean {
 		System.out.println("文件实际存储位置：" + file.getAbsolutePath());
 	}
 
+	/**
+	 * 保存文件
+	 */
 	@Transactional
 	@Override
 	public void save(FileInfo info, InputStream in) {
@@ -78,12 +81,18 @@ public class FileServiceImpl implements FileService, InitializingBean {
 		FileInfo fi = fileDao.save(info);
 	}
 
+	/**
+	 * 获取文件信息
+	 */
 	@Override
 	public FileInfo findById(String id) {
 
 		return this.fileDao.findById(id);
 	}
 
+	/**
+	 * 获取文件流
+	 */
 	@Override
 	public InputStream getFileContent(FileInfo fileInfo) {
 
@@ -97,6 +106,9 @@ public class FileServiceImpl implements FileService, InitializingBean {
 		return in;
 	}
 
+	/**
+	 * 查找文件列表的分页对象
+	 */
 	@Override
 	public Page<FileInfo> show(int number, String keyword) {
 
@@ -117,6 +129,9 @@ public class FileServiceImpl implements FileService, InitializingBean {
 		return page;
 	}
 
+	/**
+	 * 从磁盘删除文件、数据库删除文件信息
+	 */
 	@Override
 	public Result delect(String id) {
 

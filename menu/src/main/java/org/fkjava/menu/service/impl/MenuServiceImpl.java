@@ -8,13 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.fkjava.identity.domain.Role;
 import org.fkjava.identity.domain.User;
 import org.fkjava.identity.repository.RoleRepository;
 import org.fkjava.identity.repository.UserRepository;
-import org.fkjava.identity.util.UserHoder;
 import org.fkjava.menu.domain.Menu;
 import org.fkjava.menu.repository.MenuRepository;
 import org.fkjava.menu.service.MenuService;
@@ -36,6 +35,9 @@ public class MenuServiceImpl implements MenuService {
 	@Autowired
 	private UserRepository userRepository;
 
+	/**
+	 * 保存菜单
+	 */
 	@Override
 	public void save(Menu menu) {
 
@@ -87,12 +89,17 @@ public class MenuServiceImpl implements MenuService {
 		menuRepository.save(menu);
 	}
 
+	/**
+	 * 查找一级菜单（父级）
+	 */
 	@Override
 	public List<Menu> findTopMenu() {
-
 		return this.menuRepository.findByParentNullOrderByNumber();
 	}
 
+	/**
+	 * 拖拽菜单
+	 */
 	@Override
 	@Transactional
 	public Result move(String id, String targetId, String moveType) {
@@ -178,6 +185,9 @@ public class MenuServiceImpl implements MenuService {
 		return Result.of(Result.STATUS_OK);
 	}
 
+	/**
+	 * 删除菜单
+	 */
 	@Override
 	public Result delect(String id) {
 
@@ -196,29 +206,17 @@ public class MenuServiceImpl implements MenuService {
 	 * 根据用户的角色查询菜单
 	 */
 	@Override
-	public List<Menu> findMenus() {
+	@Transactional(readOnly = true)
+	public List<Menu> findMyMenus(String id) {
 
-		User user = UserHoder.get();
-		// 获取持久化的user对象
-		user = userRepository.getOne(user.getId());
-
+		User user = userRepository.getOne(id);
 		// 1.根据roles集合,查询所有的所有菜单,得到用户用户有权限访问的菜单
 		List<Role> roles = user.getRoles();
-		List<Menu> menus = this.menuRepository.findByRolesIn(roles);
+		List<Menu> menus = this.menuRepository.findDistinctByRolesIn(roles);
 		// 返回一级菜单
 		List<Menu> topMenu = new LinkedList<>();
 		Map<Menu, List<Menu>> map = new HashMap<>();
 
-		// 使用排序器,在内存里面对菜单进行排序,以序号为依据
-		Comparator<Menu> comparator = (menu1, menu2) -> {
-			if (menu1.getNumber() > menu2.getNumber()) {
-				return 1;
-			} else if (menu1.getNumber() < menu2.getNumber()) {
-				return -1;
-			} else {
-				return 0;
-			}
-		};
 		// 2.构架菜单与下级的关系
 		menus.stream()
 				// 过滤掉没有子节点的菜单
@@ -232,7 +230,16 @@ public class MenuServiceImpl implements MenuService {
 					List<Menu> childs = map.get(parent);
 					childs.add(menu);
 				});
-
+		// 使用排序器,在内存里面对菜单进行排序,以序号为依据
+		Comparator<Menu> comparator = (menu1, menu2) -> {
+			if (menu1.getNumber() > menu2.getNumber()) {
+				return 1;
+			} else if (menu1.getNumber() < menu2.getNumber()) {
+				return -1;
+			} else {
+				return 0;
+			}
+		};
 		// 3. 重新构建一级,二级菜单
 		map.entrySet().stream()
 				// 判断没有上一级,表示一级菜单
@@ -243,15 +250,15 @@ public class MenuServiceImpl implements MenuService {
 					// 返回菜单的时候,由于通过权限组装数据,所以需要修改数据
 					Menu menu = copy(parent);
 					childs.forEach(child -> {
-						Menu second = this.copy(child);	// 二级菜单
+						Menu second = this.copy(child); // 二级菜单
 						menu.getChilds().add(second);
 					});
-					menu.getChilds().sort(comparator);//排序二级菜单
+					menu.getChilds().sort(comparator);// 排序二级菜单
 					topMenu.add(parent);
 				});
 
-		topMenu.sort(comparator);//排序一级菜单
-		
+		topMenu.sort(comparator);// 排序一级菜单
+
 		return topMenu;
 	}
 
@@ -264,5 +271,20 @@ public class MenuServiceImpl implements MenuService {
 		menu.setUrl(persist.getUrl());
 		menu.setChilds(new LinkedList<>());
 		return menu;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Set<String> findMyUrls(String id) {
+
+		User user = userRepository.getOne(id);
+		List<Role> roles = user.getRoles();
+
+		List<Menu> menus = this.menuRepository.findDistinctByRolesIn(roles);
+		Set<String> urls = new HashSet<>();
+		menus.forEach(menu -> {
+			urls.add(menu.getUrl());
+		});
+		return urls;
 	}
 }

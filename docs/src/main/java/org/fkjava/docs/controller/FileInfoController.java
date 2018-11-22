@@ -39,6 +39,11 @@ public class FileInfoController {
 	@Autowired
 	private IdentityService identityService;
 
+	/**
+	 * 文件上传
+	 * @param file
+	 * @return
+	 */
 	@PostMapping("upload")
 	public String upload(@RequestParam("file") MultipartFile file) {
 
@@ -47,6 +52,11 @@ public class FileInfoController {
 		return "redirect:/docs/show";
 	}
 
+	/**
+	 * 富文本上传图片
+	 * @param file
+	 * @return
+	 */
 	@PostMapping("upload/wangEditor")
 	@ResponseBody
 	public WangEditorResponse wangEditorUpload(@RequestParam("file") MultipartFile file) {
@@ -69,7 +79,9 @@ public class FileInfoController {
 
 		return wangEditorResponse;
 	}
-
+	/*
+	 * 富文本响应的数据类型
+	 */
 	public static class WangEditorResponse {
 
 		private int errno;
@@ -91,7 +103,12 @@ public class FileInfoController {
 			this.data = data;
 		}
 	}
-
+	/**
+	 * 文件列表
+	 * @param number
+	 * @param keyword
+	 * @return
+	 */
 	@GetMapping("show")
 	public ModelAndView show(@RequestParam(name = "pageNumber", defaultValue = "0") int number,
 			@RequestParam(name = "keyword", required = false) String keyword) {
@@ -105,6 +122,12 @@ public class FileInfoController {
 		return view;
 	}
 
+	/**
+	 * 下载
+	 * @param id
+	 * @param userAgent
+	 * @return
+	 */
 	@GetMapping("/download/{abc}")
 	public ResponseEntity<StreamingResponseBody> download2(@PathVariable("abc") String id,
 			@RequestHeader("User-Agent") String userAgent) {
@@ -141,6 +164,11 @@ public class FileInfoController {
 		}
 	}
 
+	/**
+	 * 删除文件
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("delete/{id}")
 	@ResponseBody
 	public Result delect(@PathVariable String id) {

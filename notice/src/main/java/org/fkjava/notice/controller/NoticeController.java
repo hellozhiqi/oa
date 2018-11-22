@@ -29,6 +29,11 @@ public class NoticeController {
 	@Autowired
 	private NoticeTypeService noticeTypeService;
 
+	/**
+	 * 展示公告列表
+	 * @param number
+	 * @param keyword
+	 */
 	@GetMapping
 	public ModelAndView index(@RequestParam(name = "pageNumber", defaultValue = "0") Integer number, //
 			@RequestParam(name = "keyword", required = false) String keyword) {
@@ -40,6 +45,9 @@ public class NoticeController {
 		return view;
 	}
 
+	/**
+	 * 添加公告
+	 */
 	@GetMapping("add")
 	public ModelAndView add() {
 

@@ -140,7 +140,7 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	/**
-	 * 以阅读公告
+	 * 已阅读公告
 	 * @return 
 	 */
 	@Override

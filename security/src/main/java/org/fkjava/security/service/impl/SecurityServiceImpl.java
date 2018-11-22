@@ -19,6 +19,9 @@ public class SecurityServiceImpl implements SecurityService {
 	@Autowired
 	private IdentityService identityService;
 	
+	/**
+	 * 校验登录名是否存在，以及为每个roleKey添加 ROLE_
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		

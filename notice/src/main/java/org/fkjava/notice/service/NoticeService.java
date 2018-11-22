@@ -53,7 +53,7 @@ public interface NoticeService {
 	void recallNotice(String id);
 
 	/**
-	 * 阅读公告
+	 * 已阅读公告
 	 * @param id
 	 */
 	Result readedNotice(String id);

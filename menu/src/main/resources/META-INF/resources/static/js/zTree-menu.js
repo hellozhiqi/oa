@@ -111,14 +111,42 @@ $(document).ready(function(){
 	$.fn.zTree.init($("#treeDemo"), setting);
 });
 
+function moveNode(targetNode, treeNode, moveType){
+	
+	var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+	if(targetNode){
+		var targetNodeId=targetNode.id;
+	}
+	var nodes = treeObj.getNodes();
+	$.each(nodes,function(index,item){
+		
+		var treeNodeId=item.id;
+		if(treeNodeId===targetNodeId){
+			treeObj.moveNode(nodes[index], nodes[index+1], "inner");
+		}else{
+			treeObj.moveNode(null, nodes[nodes.length], "next");
+		}
+	})
+}
+
 function BeforeDrop(treeId, treeNodes, targetNode, moveType){
 	
 	var param=new Object();
 	//要移动节点的id,同一菜单不能有相同的子菜单名称
 	param.id=treeNodes[0].id;
+	//目标位置的字节点名称
+	var targetChildrenName=new Object();
+	//移动节点的名称
+	var oldName=treeNodes[0].name;
 	//要把节点到的目标位置
 	if(targetNode){
 		param.targetId=targetNode.id;
+		$.each(targetNode.children,function(index,item){
+			targetChildrenName=item.name;
+			if(!oldName===targetChildrenName){//同一目录下有相同的子菜单
+				return true;
+			}
+		});
 	}else{
 		param.targetId="";
 	}
@@ -127,10 +155,11 @@ function BeforeDrop(treeId, treeNodes, targetNode, moveType){
 	$.ajax({
 		url:"/menu/move",
 		method:"post",
+		async: false,
 		data:param,
 		success:function(msg){
 			if(msg.status===1){
-				return true;
+				moveNode(targetNode, treeNodes[0], moveType);
 			}
 		},error:function(msg){
 			alert(msg.responseJSON.message);
