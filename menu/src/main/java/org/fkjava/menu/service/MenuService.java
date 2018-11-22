@@ -1,6 +1,7 @@
 package org.fkjava.menu.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.fkjava.menu.domain.Menu;
 import org.fkjava.vo.Result;
@@ -44,5 +45,13 @@ public interface MenuService {
 	 * 
 	 * @return
 	 */
-	List<Menu> findMenus();
+	List<Menu> findMyMenus(String id);
+
+	/**
+	 * 查找所有的urls
+	 * @param id
+	 * @return
+	 */
+	Set<String> findMyUrls(String id);
+
 }

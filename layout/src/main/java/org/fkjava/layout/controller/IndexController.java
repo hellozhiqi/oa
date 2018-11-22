@@ -27,5 +27,4 @@ public class IndexController {
 	public String error() {
 		return "layout/error";
 	}
-	
 }

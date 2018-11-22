@@ -40,6 +40,6 @@
   	<module>security</module>
   	<module>docs</module>
   	<module>notice</module>
-  	<module>human-resource</module>
+  	<module>humen-resource</module>
   </modules>
 </project>

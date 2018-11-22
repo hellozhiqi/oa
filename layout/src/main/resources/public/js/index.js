@@ -22,10 +22,10 @@ $(document).ready(function () {
 				 $.each(item.children,function(i,childs){
 					 var second=`<li><a class='menu_second' href='${childs.url}'><span class='second-css'>${childs.name}</span></a></li>`;
 					html +=second;//二级
-					 $.each(childs.children,function(th,childs_three){
-						 var three=`<li><a class='menu_three' href='${childs_three.url}'>${childs_three.name}</a></li>`;
-						 html +=three;//三级
-					 })
+					 //$.each(childs.children,function(th,childs_three){
+					//	 var three=`<li><a class='menu_three' href='${childs_three.url}'>${childs_three.name}</a></li>`;
+					//	 html +=three;//三级
+					// })
 				 })
 			 }
 			 html +=`</ul></div>`;

@@ -1,10 +1,12 @@
 package org.fkjava.menu.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -22,38 +24,39 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name="oa_menu")
-public class Menu {
+@Table(name = "oa_menu")
+public class Menu implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(generator="uuid2")
-	@GenericGenerator(name="uuid2",strategy="uuid2")
+	@GeneratedValue(generator = "uuid2")
+	@GenericGenerator(name = "uuid2", strategy = "uuid2")
 	private String id;
-	//菜单名称
+	// 菜单名称
 	private String name;
-	//菜单的url
+	// 菜单的url
 	private String url;
 	@Enumerated(EnumType.STRING)
 	private Type type;
-	
-	@ManyToMany
-	@JoinTable(name="menu_roles")
+
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name = "menu_roles")
 	@OrderBy("roleName")
 	private List<Role> roles;
-	
-	private Double number;//排序的序号
-	
+
+	private Double number;// 排序的序号
+
 	@ManyToOne
-	@JoinColumn(name="parent_id")
+	@JoinColumn(name = "parent_id")
 	@JsonIgnore
-	private Menu parent;//上级菜单的id
-	
-	@OneToMany(mappedBy="parent")
-	@OrderBy("number")//下级菜单查询时候,使用number排序
-	@JsonProperty("children")//生成json数据时,使用别名
-	private List<Menu> childs;//字节点
-	
-	public static enum Type{
+	private Menu parent;// 上级菜单的id
+
+	@OneToMany(mappedBy = "parent",fetch=FetchType.EAGER)
+	@OrderBy("number") // 下级菜单查询时候,使用number排序
+	@JsonProperty("children") // 生成json数据时,使用别名
+	private List<Menu> childs;// 字节点
+
+	public static enum Type {
 		/**
 		 * 连接类型
 		 */
@@ -133,5 +136,5 @@ public class Menu {
 		return "Menu [id=" + id + ", name=" + name + ", url=" + url + ", type=" + type + ", roles=" + roles
 				+ ", number=" + number + ", parent=" + parent + ", childs=" + childs + "]";
 	}
-	
+
 }
