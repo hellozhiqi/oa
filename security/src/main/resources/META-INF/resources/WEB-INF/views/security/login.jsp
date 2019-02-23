@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>登录</title>
 	 <!-- Custom styles for this template -->
-    <link href="${ctx}/public/signin.css" rel="stylesheet">
+    <link href="${ctx}/css/signin.css" rel="stylesheet">
   </head>
   <body>
     <div class="container">
