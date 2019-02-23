@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+      <%@ taglib prefix="fk" tagdir="/WEB-INF/tags"%>
     <%@ taglib prefix="fmt"  uri="http://java.sun.com/jsp/jstl/fmt"%>
      <c:set value="${pageContext.request.contextPath}" var="ctx" scope="application"/>
 <!DOCTYPE html>
@@ -66,13 +68,21 @@
 										<c:if test="${rr.notice.author.id eq sessionScope['SPRING_SECURITY_CONTEXT'].authentication.principal.id }">
 											<a href="javascript:recallNotice('${rr.notice.id}');;" class="btn btn-warning btn-xs glyphicon glyphicon-log-in">撤回</a>
 										</c:if>
-										<a href="javascript:readedNotice('${rr.notice.id}');;" class="btn btn-info btn-xs glyphicon glyphicon-info-sign"> 阅读</a>
+										<a href="javascript:readedNotice('${rr.notice.id}');" class="btn btn-info btn-xs glyphicon glyphicon-info-sign"> 阅读</a>
 								</c:if>
 						</td>
 					</div>
 				</tr>
 			</c:forEach>
 			</tbody>
+			<tfoot>
+		  			<tr>
+		  				<!-- 分页处理 -->
+		  				<td colspan="5"  style="text-align:center; ">
+		  					<fk:page  url="/notice?keyword=${param.keyword}"  page="${page }" />
+		  				</td>
+		  			</tr>
+		  </tfoot>
 		</table>
 		</div>
 	</div>

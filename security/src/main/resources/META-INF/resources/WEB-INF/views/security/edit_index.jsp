@@ -63,7 +63,7 @@
 
     <div class="container marketing">
 
-      <!-- 人物介绍 -->
+      <!-- Three columns of text below the carousel -->
       <div class="row">
         <div class="col-lg-4">
           <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">

@@ -36,7 +36,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">首页</a></li>
+            <li><a href="${ctx }/index">首页</a></li>
             <li><a href="#">${sessionScope['SPRING_SECURITY_CONTEXT'].authentication.principal.username }</a></li>
             <li><a href="#">设置</a></li>
             <li><a href="#">帮助</a></li>
